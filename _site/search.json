@@ -1,0 +1,26 @@
+[
+  {
+    "objectID": "01_main.html",
+    "href": "01_main.html",
+    "title": "Main App",
+    "section": "",
+    "text": "The autoreload extension is already loaded. To reload it, use:\n  %reload_ext autoreload\n\n\n\nimport pandas as pd\nfrom flask import Flask, redirect\nfrom flask import render_template\nimport json\n\n\npeople = [\n    {\n        \"firstname\": \"John\",\n        \"lastname\": \"Doe\",\n        \"phone\": \"555-1234\",\n        \"email\": \"john.doe@example.com\"\n    },\n    {\n        \"firstname\": \"Jane\",\n        \"lastname\": \"Smith\",\n        \"phone\": \"555-5678\",\n        \"email\": \"jane.smith@example.com\"\n    },\n    {\n        \"firstname\": \"Alice\",\n        \"lastname\": \"Johnson\",\n        \"phone\": \"555-8765\",\n        \"email\": \"alice.johnson@example.com\"\n    },\n    {\n        \"firstname\": \"Bob\",\n        \"lastname\": \"Williams\",\n        \"phone\": \"555-4321\",\n        \"email\": \"bob.williams@example.com\"\n    },\n    {\n        \"firstname\": \"Charlie\",\n        \"lastname\": \"Brown\",\n        \"phone\": \"555-9876\",\n        \"email\": \"charlie.brown@example.com\"\n    },\n    {\n        \"firstname\": \"Diana\",\n        \"lastname\": \"Miller\",\n        \"phone\": \"555-6543\",\n        \"email\": \"diana.miller@example.com\"\n    },\n    {\n        \"firstname\": \"Edward\",\n        \"lastname\": \"Davis\",\n        \"phone\": \"555-3456\",\n        \"email\": \"edward.davis@example.com\"\n    },\n    {\n        \"firstname\": \"Fiona\",\n        \"lastname\": \"Garcia\",\n        \"phone\": \"555-6789\",\n        \"email\": \"fiona.garcia@example.com\"\n    },\n    {\n        \"firstname\": \"George\",\n        \"lastname\": \"Martinez\",\n        \"phone\": \"555-7890\",\n        \"email\": \"george.martinez@example.com\"\n    },\n    {\n        \"firstname\": \"Hannah\",\n        \"lastname\": \"Rodriguez\",\n        \"phone\": \"555-8901\",\n        \"email\": \"hannah.rodriguez@example.com\"\n    }\n]\n\n# Writing the JSON data to a file\nfile_path = 'contactdb.json'\nwith open(file_path, 'w') as json_file:\n    json.dump(people, json_file, indent=4)\n\nfile_path\n\n'contactdb.json'\n\n\n\ndb = pd.read_json('contactdb.json')\ndb.to_dict('records')\n\n[{'firstname': 'John',\n  'lastname': 'Doe',\n  'phone': '555-1234',\n  'email': 'john.doe@example.com'},\n {'firstname': 'Jane',\n  'lastname': 'Smith',\n  'phone': '555-5678',\n  'email': 'jane.smith@example.com'},\n {'firstname': 'Alice',\n  'lastname': 'Johnson',\n  'phone': '555-8765',\n  'email': 'alice.johnson@example.com'},\n {'firstname': 'Bob',\n  'lastname': 'Williams',\n  'phone': '555-4321',\n  'email': 'bob.williams@example.com'},\n {'firstname': 'Charlie',\n  'lastname': 'Brown',\n  'phone': '555-9876',\n  'email': 'charlie.brown@example.com'},\n {'firstname': 'Diana',\n  'lastname': 'Miller',\n  'phone': '555-6543',\n  'email': 'diana.miller@example.com'},\n {'firstname': 'Edward',\n  'lastname': 'Davis',\n  'phone': '555-3456',\n  'email': 'edward.davis@example.com'},\n {'firstname': 'Fiona',\n  'lastname': 'Garcia',\n  'phone': '555-6789',\n  'email': 'fiona.garcia@example.com'},\n {'firstname': 'George',\n  'lastname': 'Martinez',\n  'phone': '555-7890',\n  'email': 'george.martinez@example.com'},\n {'firstname': 'Hannah',\n  'lastname': 'Rodriguez',\n  'phone': '555-8901',\n  'email': 'hannah.rodriguez@example.com'}]\n\n\n\nclass Contact(object):\n    def __init__(self) -&gt; None:\n        self.db = pd.read_json('contactdb.json')\n\n    def search(self, q):\n        return self.db[self.db['firstname'].str.lower().str.contains(q)].to_dict('records')\n\n    def all(self):\n        return self.db.to_dict('records')\n\n\napp = Flask(__name__)\n\n\n@app.get(\"/\")\ndef index():\n    return redirect(\"/contacts\")\n\n\n@app.get(\"/contacts\")\ndef contacts():\n    contact_set = Contact().all()\n    # print(contact_set)\n    return render_template(\"index.html\", contact_set=contact_set)\n\n\nfrom nbdev.export import nb_export\nnb_export(\"01_main.ipynb\", lib_path=\".\", name='main')",
+    "crumbs": [
+      "Main App"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": ".",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This project recreates htmx-book application but with a twist of nbdev."
+  }
+]
