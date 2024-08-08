@@ -1,6 +1,6 @@
 ipynb-filters:
   - nbdev_filter.py
-  
+
 project:
   type: website
 
@@ -21,7 +21,6 @@ website:
       - sidebar:API
       - about.qmd
       
-
   sidebar:
     - id: API
       title: API
