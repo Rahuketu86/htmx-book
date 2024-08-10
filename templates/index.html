@@ -2,6 +2,12 @@
 
 {% block content %}
 
+    <form action="/contacts" method="get">
+        <fieldset role="search">
+            <input id="search" type="search" name="q" value="{{ request.args.get('q') or '' }}" />
+            <input type="submit" value="Search"/>
+        </fieldset>
+    </form>
     <table class="striped">
         <thead>
             <tr>
@@ -9,6 +15,7 @@
                 <th>Last Name</th>
                 <th>Phone</th>
                 <th>Email</th>
+                <th>Controls</th>
             </tr>
         </thead>
         {% for contact in contact_set %}
@@ -17,10 +24,16 @@
                 <td>{{contact['lastname']}}</td>
                 <td>{{contact['phone']}}</td>
                 <td>{{contact['email']}}</td>
+                <td>
+                    <div role="group">
+                        <a href="/contacts/{{contact.id}}/edit" role="button">Edit</a>
+                        <a href="/contacts/{{contact.id}}" role="button">View</a>
+                    </div>
+                </td>
             </tr>
         {% endfor %}
-
-
     </table>
-
+    <p>
+        <a href="/contacts/new" role="button">Add contact</a>
+    </p>
 {% endblock %}
