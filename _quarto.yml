@@ -24,7 +24,7 @@ website:
   sidebar:
     - id: API
       title: API
-      style: floating
+      style: docked
       contents:
         - 01_main.ipynb
 
