@@ -19,7 +19,8 @@ deploy-space:
 	git push --force space main
 
 preview-docs:
-	nbdev preview
+	quarto preview
 
 preview-app:
-	FLASK_APP=main.py flask run
+	echo $(FLASK_SECRET_KEY)
+	flask run

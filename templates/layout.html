@@ -9,6 +9,15 @@
             <h1> CONTACTS.APP</h1>
             <h2> A demo contact application </h2>
             <hr>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
             {% block content %}{% endblock %}
         </main>
     </body>
