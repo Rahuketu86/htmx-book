@@ -20,6 +20,8 @@ website:
     left:
       - sidebar:API
       - about.qmd
+      - text: App
+        href: https://rahuketu86-htmxapp.hf.space
       
   sidebar:
     - id: API
