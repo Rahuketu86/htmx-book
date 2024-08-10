@@ -17,3 +17,9 @@ runapp:
 
 deploy-space:
 	git push --force space main
+
+preview-docs:
+	nbdev preview
+
+preview-app:
+	FLASK_APP=main.py flask run
