@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <form action="/contacts/{{contact.id}}/edit" method="post">
+        <fieldset>
+            <legend>Contact Values</legend>
+            <p>
+                <label for="email">Email</label>
+                <input name="email" id="email" type="email" placeholder="Email" value="{{contact.email or ''}}">
+            </p>
+            <p>
+                <label for="firstname">First Name</label>
+                <input name="firstname" id="firstname" type="text" placeholder="First Name" value="{{contact.firstname or ''}}">
+            </p>
+            <p>
+                <label for="lastname">Last Name</label>
+                <input name="lastname" id="lastname" type="text" placeholder="Last Name" value="{{contact.lastname or ''}}">
+            </p>
+            <p>
+                <label for="phone">Phone</label>
+                <input name="phone" id="lastname" type="Phone" placeholder="Phone" value="{{contact.phone or ''}}">
+            </p>
+            <input type="submit" value="Save"/>
+        </fieldset>
+    </form>
+    <form action="/contacts/{{contact.id}}/delete" method="post">
+        <input type="submit" value="Delete"/>
+    </form>
+    <p>
+        <a href="/contacts" role="button">Back</a>
+    </p>
+{% endblock %}
