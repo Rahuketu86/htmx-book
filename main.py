@@ -120,7 +120,7 @@ class Contacts(object):
            'lastname': lastname,
            'phone':phone,
            'email': email}
-        a['id'] = len(self.db)
+        a['id'] = self.db['id'].max()+1
         self.db.loc[len(self.db), a.keys()] = a.values()
         self.db.to_json(self.file_path, orient='records')
         self.refresh()
