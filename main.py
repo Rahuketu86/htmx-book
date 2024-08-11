@@ -10,31 +10,31 @@ from flask import Flask, redirect, request, render_template, flash
 from dataclasses import dataclass
 import re
 
-# %% 01_main.ipynb 9
+# %% 01_main.ipynb 8
 class ContactErrors:
     firstname:str = "Error in Firstname"
     lastname:str = "Error in Lastname"
     phone:str = "Error in Phone"
     email:str = "Error in Email"
 
-# %% 01_main.ipynb 11
+# %% 01_main.ipynb 10
 # Regular expression pattern for validating email
 email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
 phone_regex =  r'^(?:\d{7,}|\d{1,}-\d{1,}-?\d{5,}|\d+-\d{7,}|\d{3}-\d{4})$'
 
-# %% 01_main.ipynb 12
+# %% 01_main.ipynb 11
 # Function to validate email
 def validate_email(email):
     if re.match(email_regex, email): return True
     else: return False
 
-# %% 01_main.ipynb 13
+# %% 01_main.ipynb 12
 # Function to validate phone number
 def validate_phone_number(phone_number):
     if re.match(phone_regex, phone_number): return True
     else: return False
 
-# %% 01_main.ipynb 16
+# %% 01_main.ipynb 15
 @dataclass
 class Contact:
     firstname:str=None
@@ -90,7 +90,7 @@ class Contact:
         return True
         
 
-# %% 01_main.ipynb 18
+# %% 01_main.ipynb 17
 class Contacts(object):
     def __init__(self) -> None:
         self.refresh()
@@ -126,7 +126,8 @@ class Contacts(object):
         self.refresh()
 
     def delete(self, id):
-        self.db.drop(index=id, inplace=True, errors='raise')
+        id_idx = self.db[self.db['id']==id].index
+        self.db.drop(index=id_idx, inplace=True, errors='raise')
         self.db.to_json(self.file_path, orient='records')
         self.refresh()
 
@@ -136,22 +137,23 @@ class Contacts(object):
            'phone':phone,
            'email': email,
            'id': id}
-        self.db.loc[id, a.keys()] = a.values()
+        id_idx = self.db[self.db['id']==id].index
+        self.db.loc[id_idx, a.keys()] = a.values()
         self.db.to_json(self.file_path, orient='records')
         self.refresh()
 
 
-# %% 01_main.ipynb 22
+# %% 01_main.ipynb 21
 app = Flask(__name__)
 app.secret_key = "superdupersecret"
 
 
-# %% 01_main.ipynb 23
+# %% 01_main.ipynb 22
 @app.get("/")
 def index():
     return redirect("/contacts")
 
-# %% 01_main.ipynb 24
+# %% 01_main.ipynb 23
 @app.get("/contacts")
 def contacts():
     search = request.args.get("q")
@@ -161,12 +163,12 @@ def contacts():
     # print(contact_set)
     return render_template("index.html", contact_set=contact_set)
 
-# %% 01_main.ipynb 26
+# %% 01_main.ipynb 25
 @app.get("/contacts/<int:id>")
 def view(id:int):
     return render_template("view.html", contact=Contacts().get(id))
 
-# %% 01_main.ipynb 29
+# %% 01_main.ipynb 28
 @app.route("/contacts/<int:id>/edit", methods=['GET', 'POST'])
 def edit(id):
     if request.method == 'GET':
@@ -185,18 +187,18 @@ def edit(id):
             return redirect("/contacts/"+str(id))
         else: return render_template('edit.html', contact=c_dict)
 
-# %% 01_main.ipynb 30
+# %% 01_main.ipynb 29
 @app.route("/contacts/<int:id>/delete", methods=['POST'])
 def delete(id):
     Contacts().delete(id)
     return redirect("/contacts")
 
-# %% 01_main.ipynb 33
+# %% 01_main.ipynb 31
 @app.route("/contacts/new", methods=['GET'])
 def contact_new_get():
     return render_template('new.html', contact=Contact(firstname=None, lastname=None, phone=None, email=None))
 
-# %% 01_main.ipynb 34
+# %% 01_main.ipynb 32
 @app.route("/contacts/new", methods=['POST'])
 def contact_new():
     c = Contact(firstname=request.form['firstname'], 
