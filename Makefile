@@ -19,7 +19,7 @@ deploy-space:
 	git push --force space main
 
 preview-docs:
-	quarto preview
+	quarto preview --port 4000
 
 preview-app:
 	echo $(FLASK_SECRET_KEY)
