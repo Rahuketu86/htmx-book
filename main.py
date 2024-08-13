@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['email_regex', 'phone_regex', 'app', 'ContactErrors', 'validate_email', 'validate_phone_number', 'Contact', 'Contacts',
-           'index', 'contacts', 'view', 'edit', 'delete', 'contact_new_get', 'contact_new']
+           'index', 'contacts', 'view', 'edit', 'delete', 'delete_htmx', 'contact_new_get', 'contact_new']
 
 # %% 01_main.ipynb 2
 import pandas as pd
@@ -191,14 +191,22 @@ def edit(id):
 @app.route("/contacts/<int:id>/delete", methods=['POST'])
 def delete(id):
     Contacts().delete(id)
+    flash("Contract Deleted")
     return redirect("/contacts")
 
-# %% 01_main.ipynb 31
+# %% 01_main.ipynb 30
+@app.route("/contacts/<int:id>", methods=['DELETE'])
+def delete_htmx(id):
+    Contacts().delete(id)
+    flash("Contract Deleted")
+    return redirect("/contacts", 303)
+
+# %% 01_main.ipynb 32
 @app.route("/contacts/new", methods=['GET'])
 def contact_new_get():
     return render_template('new.html', contact=Contact(firstname=None, lastname=None, phone=None, email=None))
 
-# %% 01_main.ipynb 32
+# %% 01_main.ipynb 33
 @app.route("/contacts/new", methods=['POST'])
 def contact_new():
     c = Contact(firstname=request.form['firstname'], 

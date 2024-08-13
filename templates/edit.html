@@ -23,10 +23,18 @@
             <input type="submit" value="Save"/>
         </fieldset>
     </form>
-    <form action="/contacts/{{contact.id}}/delete" method="post">
-        <input type="submit" value="Delete"/>
-    </form>
-    <p>
-        <a href="/contacts" role="button">Back</a>
-    </p>
+    <noscript>
+        <form action="/contacts/{{contact.id}}/delete" method="post">
+            <input type="submit" value="Delete"/>
+        </form>
+        <p>
+            <a href="/contacts" role="button">Back</a>
+        </p>
+    </noscript>
+    <div role="group">
+        <button hx-get="/contacts" hx-target="body" hx-push-url="true">Back</button>
+        <button hx-delete="/contacts/{{contact.id}}" hx-target="body" hx-push-url="true" 
+        hx-confirm="Are you sure you want to delete this contact?">Delete</button>
+    </div>
+    
 {% endblock %}
