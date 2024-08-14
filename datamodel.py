@@ -6,10 +6,11 @@ __all__ = ['email_regex', 'phone_regex', 'ContactErrors', 'validate_email', 'che
 
 # %% 00_datamodel.ipynb 2
 import pandas as pd
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import re
 
 # %% 00_datamodel.ipynb 8
+@dataclass
 class ContactErrors:
     firstname:str = None
     lastname:str = None
@@ -96,7 +97,7 @@ class Contact:
     phone:str=None
     email:str=None
     id: int =None
-    errors:ContactErrors = ContactErrors()
+    errors:ContactErrors = field(default_factory=lambda: ContactErrors())
     is_valid:bool=True
 
     def from_contacts_dict(self, c):
