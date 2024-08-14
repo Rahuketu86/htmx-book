@@ -7,18 +7,30 @@
             <p>
                 <label for="email">Email</label>
                 <input name="email" id="email" type="email" placeholder="Email" value="{{contact.email or ''}}">
+                {% if contact.errors.email %}
+                <span class="error">{{ contact.errors.email}}</span>
+                {% endif %}
             </p>
             <p>
                 <label for="firstname">First Name</label>
                 <input name="firstname" id="firstname" type="text" placeholder="First Name" value="{{contact.firstname or ''}}">
+                {% if contact.errors.firstname %}
+                <span class="error">{{ contact.errors.firstname}}</span>
+                {% endif %}
             </p>
             <p>
                 <label for="lastname">Last Name</label>
                 <input name="lastname" id="lastname" type="text" placeholder="Last Name" value="{{contact.lastname or ''}}">
+                {% if contact.errors.lastname %}
+                <span class="error">{{ contact.errors.lastname}}</span>
+                {% endif %}
             </p>
             <p>
                 <label for="phone">Phone</label>
                 <input name="phone" id="lastname" type="Phone" placeholder="Phone" value="{{contact.phone or ''}}">
+                {% if contact.errors.phone %}
+                <span class="error">{{ contact.errors.phone}}</span>
+                {% endif %}
             </p>
             <input type="submit" value="Save"/>
         </fieldset>
