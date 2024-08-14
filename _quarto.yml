@@ -28,6 +28,8 @@ website:
       title: API
       style: docked
       contents:
+        - index.qmd
+        - 00_datamodel.ipynb
         - 01_main.ipynb
 
 
