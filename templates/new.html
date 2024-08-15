@@ -6,7 +6,10 @@
             <legend>Contact Values</legend>
             <p>
                 <label for="email">Email</label>
-                <input name="email" id="email" type="email" placeholder="Email" value="{{contact.email or ''}}">
+                <input name="email" id="email" type="email"
+                hx-get="'/contacts/{{contact.id}}/email"
+                hx-target="next .error"
+                placeholder="Email" value="{{contact.email or ''}}">
                 {% if contact.errors.email %}
                 <span class="error">{{ contact.errors.email}}</span>
                 {% endif %}

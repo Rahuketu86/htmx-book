@@ -100,13 +100,28 @@ class Contact:
     errors:ContactErrors = field(default_factory=lambda: ContactErrors())
     is_valid:bool=True
 
-    def from_contacts_dict(self, c):
+    def validate_contact_email(self, duplicate_ok):
+        if self.email is None or self.email == "":
+            self.is_valid = False
+            self.errors.email= "Email is empty"
+        elif not validate_email(self.email):
+            self.is_valid = False
+            self.errors.email= "Format email not correct"
+        elif not duplicate_ok:
+            if check_duplicates(self.email, Contacts().get_emails()):
+                self.is_valid = False
+                self.errors.email= "Duplicated email"
+        else: pass
+
+
+    def from_contacts_dict(self, c, validate=True, duplicate_ok=True):
         self.firstname = c['firstname']
         self.lastname = c['lastname']
         self.phone = c['phone']
         self.email = c['email']
         self.id = c['id']
-        self.check_valid(duplicate_ok=True)
+        if validate:
+            self.check_valid(duplicate_ok=duplicate_ok)
 
     def check_valid(self, duplicate_ok=False):
         self.is_valid = True
@@ -126,17 +141,7 @@ class Contact:
             self.errors.phone= "Format phone not correct"
         else: pass
 
-        if self.email is None or self.email == "":
-            self.is_valid = False
-            self.errors.email= "Email is empty"
-        elif not validate_email(self.email):
-            self.is_valid = False
-            self.errors.email= "Format email not correct"
-        elif not duplicate_ok:
-            if check_duplicates(self.email, Contacts().get_emails()):
-                self.is_valid = False
-                self.errors.email= "Duplicated email"
-        else: pass
+        self.validate_contact_email(duplicate_ok=duplicate_ok)
 
     def commit(self, duplicate_ok=True):
         self.check_valid(duplicate_ok=duplicate_ok)
